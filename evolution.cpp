@@ -7,6 +7,8 @@ using namespace std;
 
 void simulateEvolution(double timeStep, int lengthOfTheTimeSeries, double *varX, double *averageX)
 {
+
+
       /*Lorenz model parameters*/
   double sigma = 10.0;
   double rho = 28.0;
@@ -16,10 +18,10 @@ void simulateEvolution(double timeStep, int lengthOfTheTimeSeries, double *varX,
   double y = drand48();
   double z = drand48();
   double xbar = 0.0; double xsqbar = 0.0;
-  int k;
+  int k=0;
   fstream xOutputFile("xValues.datout", ios::out | ios::binary);
-  
-      for(int t=1;t<lengthOfTheTimeSeries;t++)
+
+      for(int t=0;t<lengthOfTheTimeSeries;t++)
     {
       /*Displays percentage*/
             if(t%(lengthOfTheTimeSeries/100)==0)
@@ -30,7 +32,7 @@ void simulateEvolution(double timeStep, int lengthOfTheTimeSeries, double *varX,
       x = x + timeStep*sigma*(y-x) + x*eps*randNormal();
       y = y + timeStep*(x*(rho-z) - y) + y*eps*randNormal();
       z = z + timeStep*(x*y - beta*z) + z*eps*randNormal();
-      xOutputFile << x;
+      //xOutputFile << x;
       xbar += x;
       xsqbar += x*x;
     }
@@ -38,5 +40,5 @@ void simulateEvolution(double timeStep, int lengthOfTheTimeSeries, double *varX,
 	xsqbar /= lengthOfTheTimeSeries;
       *varX = xbar*xbar - xsqbar;
       *averageX = xbar;
-
+      xOutputFile.close();
 }
