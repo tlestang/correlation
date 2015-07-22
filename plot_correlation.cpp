@@ -1,18 +1,26 @@
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
+#include "evolution.h"
+
 
 using namespace std;
 
 int main()
 {
-  double modelTimeStep;
-  int lengthOfTimeSeries;
+  double modelTimeStep = 0.001;
+  int lengthOfTimeSeries = 10000;
+  double *varX, *averageX;
 
-  simulateEvolution(); //Not written yet.
+  simulateEvolution(modelTimeStep, lengthOfTimeSeries, varX, averageX);
 
   double E, integral, x;
   double tau;
-  for(int nbrOfPointsInBlock=1;nbrOfPointsInBlock<lengthOfTimeSeries/10;nbrOfPointsInBlock++);
+  int nbrOfBlocks;
+  fstream x_file("xValues.datout", ios::in | ios::binary);
+  fstream tauOutputFile("tauValues.datout", ios::out);
+  
+  for(int nbrOfPointsInBlock=1;nbrOfPointsInBlock<lengthOfTimeSeries/10;nbrOfPointsInBlock++)
   {
     tau = 0.0;
     nbrOfBlocks = lengthOfTimeSeries/nbrOfPointsInBlock;
@@ -24,10 +32,13 @@ int main()
 	    x_file >> x; integral += x;
 	  }
 	integral = integral*modelTimeStep;
-	E = intergal - nbrOfPointsInBlock*averageX;
+	E = integral - nbrOfPointsInBlock**averageX;
 	E = E*E;
 	tau += E;
       } /*End of loop on blocks*/
-    tau /= (2*varX*nbrOfPointsInBlock*modelTimeStep*nbrOfPointsInBlock);
+    tau /= (2**varX*nbrOfPointsInBlock*modelTimeStep*nbrOfPointsInBlock);
     tauOutputFile << nbrOfPointsInBlock << " " << tau << endl;
   } /*End of loop on points in a block*/
+
+  tauOutputFile.close(); x_file.close();
+}
