@@ -13,7 +13,7 @@ void simulateEvolution(double timeStep, int lengthOfTheTimeSeries, double *varX,
   double sigma = 10.0;
   double rho = 28.0;
   double beta = 8./3.;
-  double eps = 0.001; //Amplitude of the noise
+  double eps = 0.0; //Amplitude of the noise
   double x = drand48();
   double y = drand48();
   double z = drand48();
@@ -32,13 +32,14 @@ void simulateEvolution(double timeStep, int lengthOfTheTimeSeries, double *varX,
       x = x + timeStep*sigma*(y-x) + x*eps*randNormal();
       y = y + timeStep*(x*(rho-z) - y) + y*eps*randNormal();
       z = z + timeStep*(x*y - beta*z) + z*eps*randNormal();
-      //xOutputFile << x;
+      xOutputFile << x;
       xbar += x;
       xsqbar += x*x;
     }
       xbar /= lengthOfTheTimeSeries;
-	xsqbar /= lengthOfTheTimeSeries;
-      *varX = xbar*xbar - xsqbar;
+      xsqbar /= lengthOfTheTimeSeries;
+      *varX = xsqbar - xbar*xbar;
       *averageX = xbar;
       xOutputFile.close();
+      cout << endl;
 }
